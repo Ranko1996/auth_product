@@ -3,6 +3,8 @@ import { provideRouter } from '@angular/router';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 import { routes } from './app.routes';
 
 const firebaseConfig = {
@@ -15,8 +17,11 @@ const firebaseConfig = {
 };
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), importProvidersFrom([
+  providers: [
+    provideRouter(routes), 
+    importProvidersFrom([
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    provideFirestore(() => getFirestore()),
-  ])]
+    provideFirestore(() => getFirestore()),]),
+    provideAnimations()
+  ]
 };
