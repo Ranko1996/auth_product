@@ -10,6 +10,7 @@ export class AuthService {
     firebaseAuth = inject(Auth);
     user$  = user(this.firebaseAuth);
     currentUserSig = signal<UserInterface | null | undefined>(undefined);
+    
 
     register(email: string, username: string, password: string): Observable<void> {
         const promise = createUserWithEmailAndPassword(
@@ -20,12 +21,26 @@ export class AuthService {
         return from(promise);
     }
 
+    // login(email: string, password: string): Observable<void> {
+    //     const promise = signInWithEmailAndPassword(
+    //         this.firebaseAuth, 
+    //         email, 
+    //         password
+    //     ).then(() => {});
+    //     return from(promise);
+    // }
+
     login(email: string, password: string): Observable<void> {
         const promise = signInWithEmailAndPassword(
             this.firebaseAuth, 
             email, 
             password
-        ).then(() => {});
+        ).then(response => {
+            // Dohvaćanje i ispisivanje JWT tokena
+            return response.user.getIdToken().then(token => {
+                console.log(token);
+            });
+        });
         return from(promise);
     }
 
