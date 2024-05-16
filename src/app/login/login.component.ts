@@ -1,38 +1,38 @@
-import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [ReactiveFormsModule, NgClass],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  standalone: true,
+  imports: [ReactiveFormsModule],
 })
 export class LoginComponent {
-  loginForm: FormGroup;
-  submitted = false;
+  fb = inject(FormBuilder);
+  http = inject(HttpClient);
+  authService = inject(AuthService);
+  router = inject(Router);
 
-  constructor(private formBuilder: FormBuilder) {
-    this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-  }
+  form = this.fb.nonNullable.group({
+    email: ['', Validators.required],
+    password: ['', Validators.required],
+  });
+  errorMessage: string | null = null;
 
-  // Getter for easy access to form fields
-  get f() { return this.loginForm.controls; }
-
-  onSubmit() {
-    this.submitted = true;
-
-    // Stop if form is invalid
-    if (this.loginForm.invalid) {
-      return;
+  onSubmit(): void {
+    const rawForm = this.form.getRawValue()
+    this.authService.login(rawForm.email, rawForm.password).subscribe({
+      next: () => {
+      this.router.navigateByUrl('/');
+    },
+    error: (err: { code: string | null; }) => {
+      this.errorMessage = err.code;
     }
-
-    // Display form values on success
-    alert('Login successful: ' + JSON.stringify(this.loginForm.value));
+  })
   }
+
+  
 }

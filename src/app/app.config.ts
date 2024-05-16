@@ -7,6 +7,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
+import { HttpClientModule } from '@angular/common/http';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCSGrAvmcYo1LVIe1Oz4L5t5fTpj8mNE68",
@@ -21,6 +22,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes), 
     importProvidersFrom([
+    HttpClientModule,
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),]),

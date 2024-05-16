@@ -1,3 +1,13 @@
 <header class="wrapper row full-center">
     <img src="assets/images/oc-logo.svg" alt="Logo image" class="logo" />
+    @if(authService.currentUserSig() == null) {
+        <div>
+          <a routerLink="/login">Login</a>
+          <a routerLink="/register">Register</a>
+        </div>
+      
+      }
+      <div>
+        <span (click)="logout()">Logout</span>
+      </div>
 </header>
