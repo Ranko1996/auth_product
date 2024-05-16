@@ -2,6 +2,7 @@ import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 
 import { provideAnimations } from '@angular/platform-browser/animations';
 
@@ -21,6 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes), 
     importProvidersFrom([
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),]),
     provideAnimations()
   ]
