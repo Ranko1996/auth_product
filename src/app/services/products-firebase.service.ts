@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
+import { Observable, from } from 'rxjs';
 import { ProductInterface } from '../types/product.interface';
 
 @Injectable({
@@ -14,7 +14,32 @@ export class ProductsFirebaseService {
     return collectionData(this.productsCollection, {
         idField: 'id',
     }) as Observable<ProductInterface[]>;
-}
+  }
+
+  // addProduct(text: string): Observable<string> {
+  //   const productToCreate = {name: text, price: 12, image: "", description: ""}
+  //   const promise = addDoc(this.productsCollection, productToCreate).then((response) => response.id);
+  //   return from(promise);
+  // }
+
+  addProduct(name: string, price: number, image: string, description: string): Observable<string> {
+    const productToCreate = {name, price, image, description};
+    const promise = addDoc(this.productsCollection, productToCreate).then((response) => response.id);
+    return from(promise);
+  }
+
+  removeProduct(productId: string): Observable<void> {
+    const docRef = doc(this.firestore, 'products/' + productId);
+    const promise = deleteDoc(docRef);
+    return from(promise);
+  }
+
+  editProduct(productId: string, name: string, price: number, image: string, description: string): Observable<void> {
+    const docRef = doc(this.firestore, 'products/' + productId);
+    const productToUpdate = {name, price, image, description};
+    const promise = updateDoc(docRef, productToUpdate);
+    return from(promise);
+  }
 
   // constructor() { }
 }
