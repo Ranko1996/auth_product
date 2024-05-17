@@ -3,12 +3,15 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { passwordValidator } from '../validators/password-validator';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
 })
 export class LoginComponent {
   fb = inject(FormBuilder);
@@ -17,8 +20,8 @@ export class LoginComponent {
   router = inject(Router);
 
   form = this.fb.nonNullable.group({
-    email: ['', Validators.required],
-    password: ['', Validators.required],
+    email: ['',[Validators.required, Validators.email]],
+    password: ['', [Validators.required, passwordValidator()]],
   });
   errorMessage: string | null = null;
 

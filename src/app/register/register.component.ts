@@ -4,12 +4,15 @@ import { Auth } from '@angular/fire/auth';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { CommonModule } from '@angular/common';
+import { passwordValidator } from '../validators/password-validator';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
 })
 export class RegisterComponent {
   fb = inject(FormBuilder);
@@ -19,8 +22,8 @@ export class RegisterComponent {
 
   form = this.fb.nonNullable.group({
     username: ['', Validators.required],
-    email: ['', Validators.required],
-    password: ['', Validators.required],
+    email: ['',[Validators.required, Validators.email]],
+    password: ['', [Validators.required, passwordValidator()]],
   });
   errorMessage: string | null = null;
 

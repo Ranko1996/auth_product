@@ -1,20 +1,33 @@
-<h1>Register</h1>
+<div class="register-container">
+  <h1>Register</h1>
 
-@if (errorMessage) {
-  <div>{{ errorMessage }}</div>
-}
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div>
-    <input type="text" placeholder="Username" formControlName="username" />
-  </div>
-  <div>
-    <input type="text" placeholder="Email" formControlName="email" />
-  </div>
-  <div>
-    <input type="password" placeholder="Password" formControlName="password" />
-  </div>
-  <div>
-    <button type="submit">Sign Up</button>
-  </div>
-</form>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+      <input type="text" class="form-input" placeholder="Username" formControlName="username" />
+      <div *ngIf="form.get('username')?.touched && form.get('username')?.invalid" class="error-message">
+        <div *ngIf="form.get('username')?.errors?.['required']">Username is required.</div>
+      </div>
+    </div>
+    <div>
+      <input type="text" class="form-input" placeholder="Email" formControlName="email" />
+      <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="error-message">
+        <div *ngIf="form.get('email')?.errors?.['required']">Email is required.</div>
+        <div *ngIf="form.get('email')?.errors?.['email']">Enter a valid email.</div>
+      </div>
+    </div>
+    <div>
+      <input type="password" class="form-input" placeholder="Password" formControlName="password" />
+      <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="error-message">
+        <div *ngIf="form.get('password')?.errors?.['required']">Password is required.</div>
+        <div *ngIf="form.get('password')?.errors?.['passwordStrength']">
+          Password must be at least 8 characters long, contain an uppercase letter, at least 3 numbers, and 2 special characters.
+        </div>
+      </div>
+    </div>
+    <div>
+      <button type="submit" class="form-button">Sign Up</button>
+    </div>
+  </form>
+</div>

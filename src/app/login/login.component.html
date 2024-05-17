@@ -1,17 +1,29 @@
-<h1>Login</h1>
+<div class="login-container">
+  <h1>Login</h1>
 
-@if (errorMessage) {
-  <div>{{ errorMessage }}</div>
-}
+  @if (errorMessage) {
+    <div class="error-message">{{ errorMessage }}</div>
+  }
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div>
-    <input type="text" placeholder="Email" formControlName="email" />
-  </div>
-  <div>
-    <input type="password" placeholder="Password" formControlName="password" />
-  </div>
-  <div>
-    <button type="submit">Sign In</button>
-  </div>
-</form>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+      <input type="text" class="form-input" placeholder="Email" formControlName="email" />
+      <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="error-message">
+        <div *ngIf="form.get('email')?.errors?.['required']">Email is required.</div>
+        <div *ngIf="form.get('email')?.errors?.['email']">Enter a valid email.</div>
+      </div>
+    </div>
+    <div>
+      <input type="password" class="form-input" placeholder="Password" formControlName="password" />
+      <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="error-message">
+        <div *ngIf="form.get('password')?.errors?.['required']">Password is required.</div>
+        <div *ngIf="form.get('password')?.errors?.['passwordStrength']">
+          Password must be at least 8 characters long, contain an uppercase letter, at least 3 numbers, and 2 special characters.
+        </div>
+      </div>
+    </div>
+    <div>
+      <button type="submit" class="form-button">Sign In</button>
+    </div>
+  </form>
+</div>

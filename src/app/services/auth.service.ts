@@ -30,6 +30,21 @@ export class AuthService {
     //     return from(promise);
     // }
 
+    // login(email: string, password: string): Observable<void> {
+    //     const promise = signInWithEmailAndPassword(
+    //         this.firebaseAuth, 
+    //         email, 
+    //         password
+    //     ).then(response => {
+    //         // Dohvaćanje i ispisivanje JWT tokena
+    //         return response.user.getIdToken().then(token => {
+    //             console.log(token);
+    //             console.log(user);
+    //         });
+    //     });
+    //     return from(promise);
+    // }
+
     login(email: string, password: string): Observable<void> {
         const promise = signInWithEmailAndPassword(
             this.firebaseAuth, 
@@ -37,12 +52,24 @@ export class AuthService {
             password
         ).then(response => {
             // Dohvaćanje i ispisivanje JWT tokena
-            return response.user.getIdToken().then(token => {
-                console.log(token);
+            return response.user.getIdTokenResult().then(idTokenResult => {
+                console.log('JWT token:', idTokenResult.token);
+                console.log('User claims:', idTokenResult.claims);
+    
+                // Provjera je li korisnik administrator
+                if (idTokenResult.claims["admin"]) {
+                    console.log("Korisnik je administrator.");
+                    // Dodajte ovdje kod koji želite izvršiti za administratore
+                } else {
+                    console.log("Korisnik nije administrator.");
+                    // Dodajte ovdje kod koji želite izvršiti za obične korisnike
+                }
             });
         });
         return from(promise);
     }
+    
+
 
     logout(): Observable<void> {
         const promise = signOut(this.firebaseAuth);
