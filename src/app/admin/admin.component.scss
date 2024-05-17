@@ -1,0 +1,26 @@
+/* admin.component.scss */
+.user-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .row {
+    display: flex;
+    align-items: center;
+  }
+  
+  .gap-05 {
+    gap: 0.5rem;
+  }
+  
+  .gap-1 {
+    gap: 1rem;
+  }
+  
+  .p-button {
+    margin-left: 8px;
+  }
+  
