@@ -2,6 +2,7 @@ import { Injectable, inject, signal } from "@angular/core";
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, user } from "@angular/fire/auth";
 import { Observable, from } from "rxjs";
 import { UserInterface } from "../types/user.interface";
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -10,6 +11,7 @@ export class AuthService {
     firebaseAuth = inject(Auth);
     user$  = user(this.firebaseAuth);
     currentUserSig = signal<UserInterface | null | undefined>(undefined);
+    router = inject(Router);
     
 
     register(email: string, username: string, password: string): Observable<void> {
@@ -71,10 +73,16 @@ export class AuthService {
     
 
 
+    // logout(): Observable<void> {
+    //     const promise = signOut(this.firebaseAuth);
+    //     return from(promise);
+    // }
     logout(): Observable<void> {
-        const promise = signOut(this.firebaseAuth);
+        const promise = signOut(this.firebaseAuth).then(() => {
+          this.router.navigate(['/login']);
+        });
         return from(promise);
-    }
+      }
 
     isLoggedIn(): boolean {
         const user = this.firebaseAuth.currentUser;
