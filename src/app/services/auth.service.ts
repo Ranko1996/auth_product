@@ -8,6 +8,8 @@ import { Router } from "@angular/router";
     providedIn: 'root'
 })
 export class AuthService {
+    
+  constructor(private auth: Auth) {}
     firebaseAuth = inject(Auth);
     user$  = user(this.firebaseAuth);
     currentUserSig = signal<UserInterface | null | undefined>(undefined);
@@ -47,30 +49,48 @@ export class AuthService {
     //     return from(promise);
     // }
 
+    // login(email: string, password: string): Observable<void> {
+    //     const promise = signInWithEmailAndPassword(
+    //         this.firebaseAuth, 
+    //         email, 
+    //         password
+    //     ).then(response => {
+    //         // Dohvaćanje i ispisivanje JWT tokena
+    //         return response.user.getIdTokenResult().then(idTokenResult => {
+    //             console.log('JWT token:', idTokenResult.token);
+    //             console.log('User claims:', idTokenResult.claims);
+    
+    //             // Provjera je li korisnik administrator
+    //             if (idTokenResult.claims["admin"]) {
+    //                 console.log("Korisnik je administrator.");
+    //                 // Dodajte ovdje kod koji želite izvršiti za administratore
+    //             } else {
+    //                 console.log("Korisnik nije administrator.");
+    //                 // Dodajte ovdje kod koji želite izvršiti za obične korisnike
+    //             }
+    //         });
+    //     });
+    //     return from(promise);
+    // }
     login(email: string, password: string): Observable<void> {
         const promise = signInWithEmailAndPassword(
-            this.firebaseAuth, 
-            email, 
-            password
+          this.auth, 
+          email, 
+          password
         ).then(response => {
-            // Dohvaćanje i ispisivanje JWT tokena
-            return response.user.getIdTokenResult().then(idTokenResult => {
-                console.log('JWT token:', idTokenResult.token);
-                console.log('User claims:', idTokenResult.claims);
+          return response.user.getIdTokenResult().then(idTokenResult => {
+            console.log('JWT token:', idTokenResult.token);
+            console.log('User claims:', idTokenResult.claims);
     
-                // Provjera je li korisnik administrator
-                if (idTokenResult.claims["admin"]) {
-                    console.log("Korisnik je administrator.");
-                    // Dodajte ovdje kod koji želite izvršiti za administratore
-                } else {
-                    console.log("Korisnik nije administrator.");
-                    // Dodajte ovdje kod koji želite izvršiti za obične korisnike
-                }
-            });
+            if (idTokenResult.claims['admin']) {
+              console.log("Korisnik je administrator.");
+            } else {
+              console.log("Korisnik nije administrator.");
+            }
+          });
         });
         return from(promise);
-    }
-    
+      }
 
 
     // logout(): Observable<void> {

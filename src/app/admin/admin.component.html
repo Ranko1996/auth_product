@@ -1,0 +1,13 @@
+<div>
+  <p>admin works!</p>
+  <button (click)="fetchUsers()">Fetch Users</button>
+  <div *ngIf="users.length > 0">
+    <h2>All Users</h2>
+    <ul>
+      <li *ngFor="let user of users">{{ user.email }}</li>
+    </ul>
+  </div>
+  <div *ngIf="users.length === 0">
+    <p>No users found</p>
+  </div>
+</div>
