@@ -10,32 +10,31 @@ import { ButtonModule } from 'primeng/button';
   standalone: true,
   imports: [DialogModule, CommonModule, FormsModule, ButtonModule],
   templateUrl: './edit-popup.component.html',
-  styleUrl: './edit-popup.component.scss'
+  styleUrls: ['./edit-popup.component.scss']
 })
 export class EditPopupComponent {
- @Input() display: boolean = false;
- 
- @Output() displayChange = new EventEmitter<boolean>();
- @Output() confirm = new EventEmitter<ProductInterface>();
+  @Input() display: boolean = false;
 
- @Input() header!: string;
+  @Output() displayChange = new EventEmitter<boolean>();
+  @Output() confirm = new EventEmitter<ProductInterface>();
 
- @Input() product: ProductInterface = {
-  name: '',
-  image: '',
-  description: '', 
-  price: 0,
- }
+  @Input() header!: string;
 
- onConfirm() {
-  this.confirm.emit(this.product);
-  this.display = false;
-  this.displayChange.emit(this.display);
- }
+  @Input() product: ProductInterface = {
+    name: '',
+    image: '',
+    description: '',
+    price: 0,
+  };
 
- onCancel() {
-  this.display = false;
-  this.displayChange.emit(this.display);
- }
+  onConfirm() {
+    this.confirm.emit(this.product);
+    this.display = false;
+    this.displayChange.emit(this.display);
+  }
+
+  onCancel() {
+    this.display = false;
+    this.displayChange.emit(this.display);
+  }
 }
-
