@@ -1,5 +1,4 @@
 <app-header></app-header>
-<!-- Add Product Button -->
 <button
   class="mb-25"
   type="button"
@@ -21,7 +20,6 @@
     </div>
   </div>
   
-  <!-- Edit Product -->
   <app-edit-popup
     [product]="selectedProduct"
     [(display)]="displayEditPopup"
@@ -29,7 +27,6 @@
     header="Edit Product"
   ></app-edit-popup>
 
-  <!-- Add Product -->
   <app-edit-popup
     [(display)]="displayAddPopup"
     (confirm)="onConfirmAdd($event)"

@@ -4,6 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { EditPopupComponent } from '../edit-popup/edit-popup.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -14,7 +15,7 @@ import { EditPopupComponent } from '../edit-popup/edit-popup.component';
   styleUrl: './product.component.scss'
 })
 export class ProductComponent {
-  constructor(private confirmationSevice: ConfirmationService) {}
+  constructor(private confirmationSevice: ConfirmationService, private router: Router) {}
   @Input() product!: ProductInterface;
   @Output() edit: EventEmitter<ProductInterface> = new EventEmitter<ProductInterface>();
   @Output() delete: EventEmitter<ProductInterface> = new EventEmitter<ProductInterface>();
@@ -34,6 +35,10 @@ export class ProductComponent {
   
   deleteProduct() {
     this.delete.emit(this.product);
+  }
+
+  goToProductDetail(productId: string): void {
+    this.router.navigate(['/home', productId]);
   }
 
   ngOnInit() {

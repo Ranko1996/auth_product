@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDoc, updateDoc } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
 import { ProductInterface } from '../types/product.interface';
 
@@ -38,6 +38,18 @@ export class ProductsFirebaseService {
     const docRef = doc(this.firestore, 'products/' + productId);
     const productToUpdate = {name, price, image, description};
     const promise = updateDoc(docRef, productToUpdate);
+    return from(promise);
+  }
+  
+  getProductById(productId: string): Observable<ProductInterface | undefined> {
+    const docRef = doc(this.firestore, 'products/' + productId);
+    const promise = getDoc(docRef).then(docSnapshot => {
+      if (docSnapshot.exists()) {
+        return { id: docSnapshot.id, ...docSnapshot.data() } as ProductInterface;
+      } else {
+        return undefined;
+      }
+    });
     return from(promise);
   }
 
