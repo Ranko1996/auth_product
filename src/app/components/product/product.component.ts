@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { EditPopupComponent } from '../edit-popup/edit-popup.component';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [FormsModule, ButtonModule, EditPopupComponent,],
+  imports: [FormsModule, ButtonModule, EditPopupComponent,CommonModule],
   providers: [ConfirmationService],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
