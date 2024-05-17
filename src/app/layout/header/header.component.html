@@ -1,13 +1,15 @@
 <header class="wrapper row full-center">
+  <a routerLink="/">
     <img src="assets/images/oc-logo.svg" alt="Logo image" class="logo" />
-    @if(authService.currentUserSig() == null) {
-        <div>
-          <a routerLink="/login">Login</a>
-          <a routerLink="/register">Register</a>
-        </div>
-      
-      }
-      <div>
-        <span (click)="logout()">Logout</span>
-      </div>
+  </a>
+  <div class="auth-links" *ngIf="!authService.currentUserSig(); else loggedIn">
+    <a routerLink="/login">Login</a>
+    <a routerLink="/register">Register</a>
+  </div>
+  <ng-template #loggedIn>
+    <div class="auth-links right-side">
+      <span (click)="logout()">Logout</span>
+      <a routerLink="/admin">Users</a>
+    </div>
+  </ng-template>
 </header>
