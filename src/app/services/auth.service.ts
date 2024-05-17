@@ -75,4 +75,9 @@ export class AuthService {
         const promise = signOut(this.firebaseAuth);
         return from(promise);
     }
+
+    isLoggedIn(): boolean {
+        const user = this.firebaseAuth.currentUser;
+        return user !== null;
+    }
 }
